@@ -1,0 +1,7 @@
+CompileFlags:
+  CompilationDatabase: build/Debug
+  Add:
+    - -ferror-limit=0
+Diagnostics:
+  Suppress:
+    - unused-includes
