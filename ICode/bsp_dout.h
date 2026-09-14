@@ -17,6 +17,8 @@ typedef enum { Dout_off = 0, Dout_on = 1 } Dout_StateType;
 typedef struct {
   GPIO_TypeDef *GPIOx;
   uint16_t GPIO_Pin;
+  GPIO_PinState ActiveLevel;
+  GPIO_PinState InactiveLevel;
 } Dout_ConfigType;
 typedef enum {
   Dout_error = 0,
