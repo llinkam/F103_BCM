@@ -26,6 +26,7 @@
 /* USER CODE BEGIN Includes */
 #include "bsp_din.h"
 #include "bsp_dout.h"
+#include "bsp_pwm.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -93,6 +94,7 @@ int main(void) {
   /* USER CODE BEGIN 2 */
   Dout_Msp_Init();
   Din_Msp_Init();
+  Pwm_Msp_Init();
   /* USER CODE END 2 */
 
   /* Init scheduler */

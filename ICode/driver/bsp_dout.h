@@ -9,7 +9,6 @@ typedef enum {
   DOUT_CH_5,     /* PA15 MOS  		  */
   DOUT_CH_6,     /* PB3  MOS        */
   DOUT_CH_7,     /* PB4  MOS        */
-  DOUT_CH_8,     /* PB5  MOS        */
   DOUT_CH_9,     /* PC13            */
   DOUT_CH_NUM    /* 通道总数         */
 } Dout_ChannelType;

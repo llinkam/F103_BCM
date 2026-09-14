@@ -7,7 +7,6 @@ static const Dout_ConfigType Dout_Config[DOUT_CH_NUM] = {
     {GPIOA, GPIO_PIN_15, GPIO_PIN_RESET, GPIO_PIN_SET},
     {GPIOB, GPIO_PIN_3, GPIO_PIN_RESET, GPIO_PIN_SET},
     {GPIOB, GPIO_PIN_4, GPIO_PIN_RESET, GPIO_PIN_SET},
-    {GPIOB, GPIO_PIN_5, GPIO_PIN_RESET, GPIO_PIN_SET},
     {GPIOC, GPIO_PIN_13, GPIO_PIN_SET, GPIO_PIN_RESET}};
 static GPIO_PinState Dout_ToPinState(Dout_ChannelType Channel,
                                      Dout_StateType State) {
@@ -30,7 +29,7 @@ void Dout_Msp_Init(void) {
   }
   gpio.Mode = GPIO_MODE_OUTPUT_PP;
   gpio.Pin = GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_3 |
-             GPIO_PIN_4 | GPIO_PIN_5;
+             GPIO_PIN_4;
   gpio.Pull = GPIO_NOPULL;
   gpio.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &gpio);

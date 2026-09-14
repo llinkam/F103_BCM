@@ -45,14 +45,15 @@ target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
 # Add sources to executable
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user sources here
-    ICode/bsp_dout.c
-    ICode/bsp_din.c
+    ICode/driver/bsp_dout.c
+    ICode/driver/bsp_din.c
+    ICode/driver/bsp_pwm.c
 )
 
 # Add include paths
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined include paths
-    ICode
+    ICode/driver
 )
 
 # Add project symbols (macros)

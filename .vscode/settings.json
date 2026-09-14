@@ -16,5 +16,6 @@
         "--clang-tidy"
     ],
     "stm32cube-ide-clangd.enableLinting": true,
-    "C_Cpp.intelliSenseEngine": "disabled"
+    "C_Cpp.intelliSenseEngine": "disabled",
+    "commentTranslate.source": "renping.deepseek-comment-translate-deepseek"
 }
