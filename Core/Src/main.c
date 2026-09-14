@@ -24,6 +24,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "bsp_din.h"
 #include "bsp_dout.h"
 /* USER CODE END Includes */
 
@@ -91,6 +92,7 @@ int main(void) {
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
   Dout_Msp_Init();
+  Din_Msp_Init();
   /* USER CODE END 2 */
 
   /* Init scheduler */

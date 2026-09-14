@@ -25,7 +25,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "bsp_din.h"
+#include "bsp_dout.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -114,10 +115,21 @@ void MX_FREERTOS_Init(void) {
 void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
+  uint32_t l_WakeTick = osKernelGetTickCount();
+  Din_LevelType l_Key1 = DIN_INACTIVE;
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+    Din_MainFunction();
+    if (Din_Read(DIN_CH_1, &l_Key1) == Din_OK) {
+  if (l_Key1 == DIN_ACTIVE) {
+    Dout_SetLevel(DOUT_CH_4, Dout_on);
+  } else {
+    Dout_SetLevel(DOUT_CH_4, Dout_off);
+  }
+ }
+    l_WakeTick += DIN_SAMPLE_PERIOD_MS;
+    osDelayUntil(l_WakeTick);
   }
   /* USER CODE END StartDefaultTask */
 }
