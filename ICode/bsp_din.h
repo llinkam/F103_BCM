@@ -1,4 +1,10 @@
+#ifndef BSP_DIN_H
+#define BSP_DIN_H
 #include "main.h"
+
+#define DIN_SAMPLE_PERIOD_MS 10u
+#define DIN_DEBOUNCE_CNT 3u
+
 typedef enum {
   DIN_CH_1 = 0,
   DIN_CH_2,
@@ -10,12 +16,17 @@ typedef enum {
   DIN_CH_8,
   DIN_CH_NUM
 } Din_ChannelType;
-typedef struct {
-  GPIO_TypeDef *GPIOx;
-  uint16_t GPIO_Pin;
-} Din_ConfigType;
 typedef enum {
-  DIN_ACTIVE = 0,
-  DIN_INACTIVE = 1,
+  DIN_INACTIVE = 0,
+  DIN_ACTIVE = 1,
+} Din_LevelType;
+typedef enum {
+  Din_error = 0,
+  Din_OK = 1,
 } Din_StatusType;
-void din_msp_Init(void);
+
+void Din_Msp_Init(void);
+void Din_MainFunction(void);
+Din_StatusType Din_Read(Din_ChannelType Channel, Din_LevelType *pLevel);
+Din_StatusType Din_GetRaw(Din_ChannelType Channel, Din_LevelType *pLevel);
+#endif
