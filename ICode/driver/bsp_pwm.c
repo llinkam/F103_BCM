@@ -9,7 +9,7 @@ void Pwm_Msp_Init(void) {
   htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 1000 - 1;
+  htim3.Init.Period = PWM_DUTY_MAX - 1;
   htim3.Init.RepetitionCounter = 0;
   htim3.Init.Prescaler = 72 - 1;
   htim3.Instance = TIM3;
@@ -32,16 +32,9 @@ void Pwm_Msp_Init(void) {
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
 }
 Pwm_StatusType Pwm_SetDuty(Pwm_ChannelType Channel, uint16_t Duty) {
-  if (Channel > PWM_CH_NUM) {
-    if (Duty > PWM_DUTY_MAX) {
-      return Pwm_error;
-    } else {
-      __HAL_TIM_SET_COMPARE(Pwm_Config[Channel].htim,
-                            Pwm_Config[Channel].Channel, Duty);
-      return Pwm_OK;
-    }
-  }
-  else {
+  if ((Channel >= PWM_CH_NUM) || (Duty > PWM_DUTY_MAX)) {
     return Pwm_error;
   }
+  __HAL_TIM_SET_COMPARE(Pwm_Config[Channel].htim, Pwm_Config[Channel].Channel, Duty);
+  return Pwm_OK;
 }
