@@ -3,7 +3,6 @@ static Light_RuntimeType Light_Runtime = {
     .State = Light_off, .Duty = 0, .LastKey = DIN_INACTIVE};
 void Light_Init(void) {
   Din_Msp_Init();
-  Dout_Msp_Init();
   Pwm_Msp_Init();
 }
 void Light_MainFunction(void) {

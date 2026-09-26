@@ -1,7 +1,26 @@
 CompileFlags:
   CompilationDatabase: build/Debug
-  Add:
-    - -ferror-limit=0
+
+---
+
+If:
+  PathMatch:
+  - Core/.*
+  - Drivers/.*
+  - Middlewares/.*
+  - startup_.*\.s
+  PathExclude:
+  - Core/Src/main\.c
 Diagnostics:
-  Suppress:
-    - unused-includes
+  Suppress: '*'
+  ClangTidy:
+    Remove: '*'
+
+---
+
+If:
+  PathMatch:
+  - Core/Src/main\.c
+Diagnostics:
+  ClangTidy:
+    Remove: '*'

@@ -20,8 +20,6 @@ void Dout_Msp_Init(void) {
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
-  __HAL_RCC_AFIO_CLK_ENABLE();
-  __HAL_AFIO_REMAP_SWJ_NOJTAG();
   GPIO_InitTypeDef gpio = {0};
   for (int i = 0; i < DOUT_CH_NUM; i++) {
     HAL_GPIO_WritePin(Dout_Config[i].GPIOx, Dout_Config[i].GPIO_Pin,

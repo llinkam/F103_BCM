@@ -1,10 +1,9 @@
 #ifndef LIGHT_H
 #define LIGHT_H
+#include "main.h"
 #include "bsp_din.h"
 #include "bsp_dout.h"
 #include "bsp_pwm.h"
-#include "main.h"
-#include "cmsis_os2.h"
 typedef enum { light_error = 0, Light_ok } Light_StatusType;
 typedef enum {
   Light_off = 0,
