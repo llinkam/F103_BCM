@@ -6,5 +6,6 @@ Drivers/CMSIS/Lib/
 Drivers/CMSIS/DSP/
 Drivers/CMSIS/NN/
 .idea/
+.vscode/settings.json
 
 .vscode/c_cpp_properties.json

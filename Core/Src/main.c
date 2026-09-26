@@ -24,9 +24,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "bsp_din.h"
-#include "bsp_dout.h"
-#include "bsp_pwm.h"
+#include "light.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -92,9 +90,7 @@ int main(void) {
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  Dout_Msp_Init();
-  Din_Msp_Init();
-  Pwm_Msp_Init();
+  Light_Init();
   /* USER CODE END 2 */
 
   /* Init scheduler */

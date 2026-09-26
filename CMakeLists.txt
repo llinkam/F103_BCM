@@ -48,12 +48,14 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     ICode/driver/bsp_dout.c
     ICode/driver/bsp_din.c
     ICode/driver/bsp_pwm.c
+    ICode/app/light.c
 )
 
 # Add include paths
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined include paths
     ICode/driver
+    ICode/app
 )
 
 # Add project symbols (macros)
