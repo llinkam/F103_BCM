@@ -1,4 +1,5 @@
 #include "bsp_fdcan.h"
+#include "stm32g4xx_hal.h"
 #include "stm32g4xx_hal_def.h"
 #include "stm32g4xx_hal_fdcan.h"
 #include <stdint.h>
@@ -8,6 +9,8 @@ static FDCAN_TxHeaderTypeDef FDCAN_TxHeader;
 static uint8_t FDCan_RXData[8];
 static volatile uint8_t Can_LightCmd;
 static volatile uint8_t Can_LightCmdFlag = 0U;
+static volatile uint32_t Can_LastCmdTick = 0U;
+static volatile uint8_t Can_CmdSeen = 0U;
 Can_StatusType Can_Init() {
   if ((HAL_FDCAN_ConfigGlobalFilter(
           &hfdcan1, FDCAN_ACCEPT_IN_RX_FIFO0, FDCAN_ACCEPT_IN_RX_FIFO0,
@@ -29,6 +32,8 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan,
       if (FDCAN_RxHeader.Identifier == CAN_ID_LIGHT_CMD) {
         Can_LightCmd = FDCan_RXData[0];
         Can_LightCmdFlag = 1;
+        Can_LastCmdTick = HAL_GetTick();
+        Can_CmdSeen = 1U;
       }
     }
   }
@@ -60,5 +65,13 @@ Can_StatusType FDCan_GetLightCmd(uint8_t *Cmd) {
   *Cmd = Can_LightCmd;
   Can_LightCmdFlag = 0U;
   return FDcan_ok;
-  
+}
+Can_LinkType FDCan_GetLinkState(void) {
+  if (Can_CmdSeen == 0U) {
+    return FDcan_timeout;
+  }
+  if ((HAL_GetTick() - Can_LastCmdTick) >CAN_LIGHT_CMD_TIMEOUT_MS ) {
+    return FDcan_timeout;
+  }
+  return FDcan_online;
 }

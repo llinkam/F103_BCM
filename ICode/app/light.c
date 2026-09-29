@@ -12,17 +12,21 @@ void Light_MainFunction(void) {
   Din_LevelType Level;
   Din_MainFunction();
   Din_Read(DIN_CH_1, &Level);
-  if (FDCan_GetLightCmd(&cmd) == FDcan_ok) {
-    Light_Runtime.State = (cmd == Light_on ? Light_on : Light_off);
-  }
-  if (((Level == DIN_ACTIVE) && (Light_Runtime.LastKey == DIN_INACTIVE))) {
-    if (Light_Runtime.State == Light_on) {
-      Light_Runtime.State = Light_off;
-    } else {
-      Light_Runtime.State = Light_on;
+  if (FDCan_GetLinkState() == FDcan_timeout) {
+    Light_Runtime.State = Light_safe;
+  } else {
+    if (FDCan_GetLightCmd(&cmd) == FDcan_ok) {
+      Light_Runtime.State = (cmd == Light_on ? Light_on : Light_off);
     }
+    if (((Level == DIN_ACTIVE) && (Light_Runtime.LastKey == DIN_INACTIVE))) {
+      if (Light_Runtime.State == Light_on) {
+        Light_Runtime.State = Light_off;
+      } else {
+        Light_Runtime.State = Light_on;
+      }
+    }
+    Light_Runtime.LastKey = Level;
   }
-  Light_Runtime.LastKey = Level;
   if (Light_Runtime.State == Light_on) {
     if (Light_Runtime.Duty <= 1000) {
       Light_Runtime.Duty += 10;
@@ -45,6 +49,9 @@ void Light_MainFunction(void) {
     uint8_t Light_Status[3] = {(uint8_t)Light_Runtime.State,
                                (uint8_t)(Light_Runtime.Duty >> 8),
                                (uint8_t)Light_Runtime.Duty};
+    if (FDCan_GetLinkState() != FDcan_online) {
+      FDCan_Transmit(CAN_ID_LIGHT_STATUS, (uint8_t *)Light_safe, 1);
+    }
     FDCan_Transmit(CAN_ID_LIGHT_STATUS, Light_Status, 3);
   }
 };

@@ -7,10 +7,10 @@
 #include "main.h"
 
 typedef enum { light_error = 0, Light_ok } Light_StatusType;
-typedef enum { Light_off = 0, Light_on } Light_StateType;
+typedef enum { Light_off = 0, Light_on,Light_safe} Light_StateType;
 typedef struct {
   Light_StateType State;
-  uint16_t Duty;
+  int16_t Duty;
   Din_LevelType LastKey;
 } Light_RuntimeType;
 void Light_Init(void);
