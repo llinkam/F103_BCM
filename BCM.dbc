@@ -1,0 +1,17 @@
+VERSION ""
+
+NS_ :
+
+BS_:
+
+BU_: TESTER BCM
+
+BO_ 513 LIGHT_CMD: 1 TESTER
+ SG_ Light_Cmd : 0|8@1+ (1,0) [0|1] "" BCM
+
+BO_ 769 LIGHT_STATUS: 3 BCM
+ SG_ Light_State : 0|8@1+ (1,0) [0|1] "" TESTER
+ SG_ Light_Duty : 15|16@0+ (0.1,0) [0|100] "%" TESTER
+
+VAL_ 513 Light_Cmd 0 "Off" 1 "On" ;
+VAL_ 769 Light_State 0 "Off" 1 "On" ;
