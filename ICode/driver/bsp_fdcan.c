@@ -3,9 +3,11 @@
 #include "stm32g4xx_hal_fdcan.h"
 #include <stdint.h>
 extern FDCAN_HandleTypeDef hfdcan1;
-FDCAN_RxHeaderTypeDef FDCAN_RxHeader;
-static uint8_t FDcan_RXData[8];
+static FDCAN_RxHeaderTypeDef FDCAN_RxHeader;
 static FDCAN_TxHeaderTypeDef FDCAN_TxHeader;
+static uint8_t FDCan_RXData[8];
+static volatile uint8_t Can_LightCmd;
+static volatile uint8_t Can_LightCmdFlag = 0U;
 Can_StatusType Can_Init() {
   if ((HAL_FDCAN_ConfigGlobalFilter(
           &hfdcan1, FDCAN_ACCEPT_IN_RX_FIFO0, FDCAN_ACCEPT_IN_RX_FIFO0,
@@ -22,8 +24,12 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan,
                                uint32_t RxFifo0ITs) {
   if ((RxFifo0ITs & FDCAN_IT_RX_FIFO0_NEW_MESSAGE) != 0U) {
     if (HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &FDCAN_RxHeader,
-                               FDcan_RXData) == HAL_OK) {
+                               FDCan_RXData) == HAL_OK) {
       HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
+      if (FDCAN_RxHeader.Identifier == CAN_ID_LIGHT_CMD) {
+        Can_LightCmd = FDCan_RXData[0];
+        Can_LightCmdFlag = 1;
+      }
     }
   }
 }
@@ -46,4 +52,13 @@ Can_StatusType FDCan_Transmit(uint32_t Can_Id, const uint8_t *TXData,
     return FDcan_error;
   }
   return FDcan_ok;
+}
+Can_StatusType FDCan_GetLightCmd(uint8_t *Cmd) {
+  if (Can_LightCmdFlag == 0U) {
+    return FDcan_error;
+  }
+  *Cmd = Can_LightCmd;
+  Can_LightCmdFlag = 0U;
+  return FDcan_ok;
+  
 }

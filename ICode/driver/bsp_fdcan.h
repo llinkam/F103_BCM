@@ -10,4 +10,5 @@ typedef enum { FDcan_error = 0, FDcan_ok } Can_StatusType;
 Can_StatusType Can_Init(void);
 Can_StatusType FDCan_Transmit(uint32_t Can_Id, const uint8_t *TXData,
                               uint8_t Data_Len);
+Can_StatusType FDCan_GetLightCmd(uint8_t *Cmd);
 #endif

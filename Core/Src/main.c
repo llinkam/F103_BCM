@@ -102,15 +102,16 @@ int main(void) {
   /* USER CODE END 2 */
 
   /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
-  uint8_t Can_TestData[8] = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88};
 
+  /* USER CODE BEGIN WHILE */
+  uint32_t Last_Tick = HAL_GetTick();
   while (1) {
     /* USER CODE END WHILE */
-    FDCan_Transmit(CAN_ID_TEST, Can_TestData, 8);
-    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
-    HAL_Delay(20);
     /* USER CODE BEGIN 3 */
+    if ((HAL_GetTick() - Last_Tick) >= 10U) {
+      Last_Tick += 10U;
+      Light_MainFunction();
+    }
   }
   /* USER CODE END 3 */
 }
